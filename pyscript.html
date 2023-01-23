@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <title>Cash Machine</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <link rel="stylesheet" href="pystyle.css">
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  </head>
+  <body>
+<py-script>
+    correct_pin  = "1234"
+pin_attempts = 0
+balance = 500
+
+# first function to welcome the user, initiate all code
+# def is definition - we are defining a new functions with a name an set of instructions
+def start_machine():
+    print("Welcome to Cash Machine!")
+    print("Please insert your card and enter your pin")
+    pin_check()
+    # this is the end of the definition for start_machine() function
+
+def pin_check():
+    # pin attempts exists globally (outside the function) - to give it a new value within the function I must make it global
+    global pin_attempts
+    # input allows user to enter their own input into the terminal. The terminal waits for the user response
+    # to allow us to reuse this input, we save the value to a variable
+    typed_pin = input("   >   ")
+
+    while typed_pin != correct_pin and pin_attempts <3:
+        print("your pin is incorrect, please try again")
+        # this is line which means pin attempts needs to be global
+        pin_attempts = pin_attempts + 1
+        typed_pin = input("   >   ")
+
+    if pin_attempts >=3:
+        print("You have got your pin wrong too many times")
+        print("Your card has been swallowed to prevent fraud")
+    else:
+        cash_withdrawal()
+
+def cash_withdrawal():
+        global balance     
+        print("Your pin was correct")
+        # this is an f string - this is python-specific. It lets us put in variables names in a string between {} placeholders to make our code super readable
+        print(f"You currently have {balance}")
+        print("How much would you like to withdraw?")
+        # input always creates the answer as a string data type - even if we type in numbers. This means we can't do maths with what the user types in. int() converts what the users types in into a integer so we can do maths and use arithmetic operations.
+        withdrawal_amount = int(input("  >   "))
+
+        while withdrawal_amount > balance:
+            print("Insufficient funds")
+            print("Please enter a withdrawal amount")
+            # input always creates the answer as a string data type - even if we type in numbers. This means we can't do maths with what the user types in. int() converts what the users types in into a integer so we can do maths and use arithmetic operations.
+            withdrawal_amount = int(input("  >   "))
+        
+        balance = balance - withdrawal_amount
+        print(f"you now have {balance}")
+        print("thank you for using Cash Machine")
+
+# calling start machine function to execute program
+start_machine()
+
+</py-script>
+  </body>
+</html>
